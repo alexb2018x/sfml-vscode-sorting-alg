@@ -1,28 +1,34 @@
 #include "Platform/Platform.hpp"
+#include "Bar.h"
+
+int Random(int min, int max);
+
+int Random(int min, int max)
+{
+  return min + rand() % (max - min);
+}
 
 int main()
 {
 	util::Platform platform;
 
-#if defined(_DEBUG)
 	std::cout << "Hello World!" << std::endl;
-#endif
 
-	sf::RenderWindow window;
-	// in Windows at least, this must be called before creating the window
-	float screenScalingFactor = platform.getScreenScalingFactor(window.getSystemHandle());
-	// Use the screenScalingFactor
-	window.create(sf::VideoMode(200.0f * screenScalingFactor, 200.0f * screenScalingFactor), "SFML works!");
+	int resolutionX(1280), resolutionY(720);
+	sf::RenderWindow window(sf::VideoMode(resolutionX, resolutionY), "Sorting Algorithms", sf::Style::Close);
 	platform.setIcon(window.getSystemHandle());
 
-	sf::CircleShape shape(window.getSize().x / 2);
-	shape.setFillColor(sf::Color::White);
-
-	sf::Texture shapeTexture;
-	shapeTexture.loadFromFile("content/sfml.png");
-	shape.setTexture(&shapeTexture);
-
 	sf::Event event;
+
+	Bar mBar;
+	mBar.setColor(sf::Color(0,0,0));
+	mBar.setLength(resolutionX/2,5);
+	mBar.setLocation(-resolutionX/2 + mBar.getLengthX()/2,-resolutionY+5);
+
+	Bar mainBar;
+	mainBar.setColor(sf::Color(252,235,90));
+	mainBar.setLength(5,resolutionY);
+	mainBar.setLocation(-resolutionX/2,0);
 
 	while (window.isOpen())
 	{
@@ -32,9 +38,15 @@ int main()
 				window.close();
 		}
 
-		window.clear();
-		window.draw(shape);
+		// window.clear();
+		window.clear(sf::Color(223,53,33));
+		window.draw(sf::RectangleShape(*(mBar.getRect())));
+		window.draw(sf::RectangleShape(*(mainBar.getRect())));
 		window.display();
+
+		// mBar.setLocation(-Random(0,resolutionX),-Random(0,resolutionY));
+		// mBar.setLength(Random(0,resolutionX/10),Random(0,resolutionY/10));
+		// mBar.setColor(sf::Color(Random(0,255), Random(0,255), Random(0,255)));
 	}
 
 	return 0;
