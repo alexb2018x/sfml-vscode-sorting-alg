@@ -26,7 +26,9 @@
 		"*.stats": "cpp",
 		"*.desktop": "properties",
 		".clang-format": "yaml",
-		"new": "cpp"
+		"new": "cpp",
+		"optional": "cpp",
+		"type_traits": "cpp"
 	},
 	// "terminal.integrated.defaultProfile.windows": "Git Bash",
 	"terminal.integrated.env.windows": {

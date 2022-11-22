@@ -37,6 +37,12 @@ public:
 	HorizontalBar(int col, int val);
 	~HorizontalBar();
 
+	HorizontalBar(const HorizontalBar& other);
+	HorizontalBar& operator=(const HorizontalBar& other);
+
+	HorizontalBar(HorizontalBar&& other) noexcept;
+	HorizontalBar& operator=(HorizontalBar&& other) noexcept;
+
 	void setColAndVal(int col, int val);
 
 private:

@@ -11,7 +11,7 @@ Bar::Bar() :
 {
 	rect = new sf::RectangleShape(sf::Vector2f(lenX, lenY));
 	rect->setOrigin(locX, locY);
-	rect->setFillColor(sf::Color(175, 205, 255));
+	rect->setFillColor(sf::Color::Black);
 	rect->setOutlineThickness(0.0f);
 	rect->setOutlineColor(sf::Color::Black);
 }
@@ -131,6 +131,32 @@ HorizontalBar::HorizontalBar(int col, int val) :
 
 HorizontalBar::~HorizontalBar()
 {
+}
+
+HorizontalBar::HorizontalBar(const HorizontalBar& other) :
+	Bar(other)
+{
+	setColAndVal(other.column, other.value);
+}
+HorizontalBar& HorizontalBar::operator=(const HorizontalBar& other)
+{
+	Bar::operator=(other);
+	setColAndVal(other.column, other.value);
+	return *this;
+}
+
+HorizontalBar::HorizontalBar(HorizontalBar&& other) noexcept :
+	Bar(std::move(other))
+{
+	setColAndVal(other.column, other.value);
+}
+
+HorizontalBar& HorizontalBar::operator=(HorizontalBar&& other) noexcept
+{
+	// this = std::move(other);
+	Bar::operator=(other);
+	setColAndVal(other.column, other.value);
+	return *this;
 }
 
 void HorizontalBar::setColAndVal(int col, int val)
