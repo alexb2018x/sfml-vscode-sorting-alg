@@ -6,6 +6,12 @@ public:
 	Bar();
 	virtual ~Bar();
 
+	Bar(const Bar& other);
+	Bar& operator=(const Bar& other);
+
+	Bar(Bar&& other) noexcept;
+	Bar& operator=(Bar&& other) noexcept;
+
 	sf::RectangleShape* getRect();
 
 	void setLocation(int x, int y);
@@ -21,13 +27,14 @@ public:
 protected:
 	int locX, locY;
 	int lenX, lenY;
-	sf::RectangleShape *rect;
+	sf::RectangleShape* rect;
 };
 
 class HorizontalBar : public Bar
 {
 public:
 	HorizontalBar();
+	HorizontalBar(int col, int val);
 	~HorizontalBar();
 
 	void setColAndVal(int col, int val);
