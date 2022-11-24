@@ -1,7 +1,9 @@
+#include <vector>
+
 #include "Bar.h"
 #include "Consts.h"
 #include "Platform/Platform.hpp"
-#include <vector>
+#include "SortingAlg.h"
 
 using namespace std;
 using namespace constants;
@@ -28,15 +30,18 @@ int main()
 
 	Bar mainBar;
 	mainBar.setColor(verticalBarColor);
-	mainBar.setLength(5, screenResolutionY);
-	mainBar.setLocation(-screenResolutionX / 2, 0);
+	mainBar.setLength(4, screenResolutionY);
+	mainBar.setLocation(-screenResolutionX / 2 + mainBar.getLengthX() / 2, 0);
 
 	int maxColumns = screenResolutionY / 5;
 	std::vector<HorizontalBar> mHBars;
+	mHBars.reserve(maxColumns);
 	for (int i = 0; i < maxColumns; i++)
 		mHBars.push_back(HorizontalBar(i, Random(1, screenResolutionX / 2)));
 
 	cout << "Vector size: " << mHBars.size() << endl;
+
+	BubbleSort mBSort(&mHBars);
 
 	while (window.isOpen())
 	{
@@ -47,6 +52,8 @@ int main()
 		}
 
 		window.clear(backgroundColor);
+
+		mBSort.doStep();
 		for (uint i = 0; i < mHBars.size(); i++)
 			window.draw(sf::RectangleShape(*(mHBars[i].getRect())));
 

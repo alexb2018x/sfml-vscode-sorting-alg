@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 
 class Bar
@@ -44,6 +45,9 @@ public:
 	HorizontalBar& operator=(HorizontalBar&& other) noexcept;
 
 	void setColAndVal(int col, int val);
+	void swap(HorizontalBar& other);
+
+	bool operator<(const HorizontalBar& other) const;
 
 private:
 	int column, value;

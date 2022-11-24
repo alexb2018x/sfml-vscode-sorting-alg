@@ -167,3 +167,15 @@ void HorizontalBar::setColAndVal(int col, int val)
 	setLength(val * 2, 5);
 	setLocation(-screenResolutionX / 2 + lenX / 2, -screenResolutionY + lenY * (1 + column));
 }
+
+void HorizontalBar::swap(HorizontalBar& other)
+{
+	int tmpVal = value;
+	setColAndVal(column, other.value);
+	other.setColAndVal(other.column, tmpVal);
+}
+
+bool HorizontalBar::operator<(const HorizontalBar& other) const
+{
+	return value < other.value;
+}
