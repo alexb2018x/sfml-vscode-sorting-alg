@@ -27,6 +27,17 @@ int main()
 
 	sf::Color backgroundColor(223, 53, 33), verticalBarColor(252, 235, 90);
 
+	sf::Font font;
+	if (!font.loadFromFile("content/CyrilicOld.TTF"))
+		cout << "font error" << endl;
+	sf::Text textLeft("Finished", font, 30);
+	textLeft.setStyle(sf::Text::Bold);
+	textLeft.setFillColor(verticalBarColor);
+	textLeft.setPosition(screenResolutionX / 4, 0);
+
+	sf::Text textRight(textLeft);
+	textRight.setPosition(3 * screenResolutionX / 4, 0);
+
 	Bar mainBar;
 	mainBar.setColor(verticalBarColor);
 	mainBar.setLength(4, screenResolutionY);
@@ -48,7 +59,8 @@ int main()
 	BubbleSort mBSort(&mHBarsLeft);
 
 	int steps2Avoid(
-		3
+		0
+		// 3
 		// 10
 		),
 		stepsCounter(0);
@@ -75,6 +87,8 @@ int main()
 			window.draw(sf::RectangleShape(*(mHBarsRight[i].getRect())));
 
 		window.draw(sf::RectangleShape(*(mainBar.getRect())));
+		if (mBSort.finished)
+			window.draw(textLeft);
 		window.display();
 	}
 
