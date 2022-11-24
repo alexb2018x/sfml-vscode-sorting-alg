@@ -43,6 +43,8 @@ int main()
 
 	BubbleSort mBSort(&mHBars);
 
+	int steps2Avoid(10), stepsCounter(0);
+
 	while (window.isOpen())
 	{
 		while (window.pollEvent(event))
@@ -53,7 +55,12 @@ int main()
 
 		window.clear(backgroundColor);
 
-		mBSort.doStep();
+		stepsCounter++;
+		if (stepsCounter >= steps2Avoid)
+		{
+			stepsCounter = 0;
+			mBSort.doStep();
+		}
 		for (uint i = 0; i < mHBars.size(); i++)
 			window.draw(sf::RectangleShape(*(mHBars[i].getRect())));
 
