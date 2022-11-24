@@ -35,7 +35,7 @@ class HorizontalBar : public Bar
 {
 public:
 	HorizontalBar();
-	HorizontalBar(int col, int val);
+	HorizontalBar(int col, int val, bool leftPart = true);
 	~HorizontalBar();
 
 	HorizontalBar(const HorizontalBar& other);
@@ -49,6 +49,9 @@ public:
 
 	bool operator<(const HorizontalBar& other) const;
 
+	void setIfItIsLeftPart(bool val);
+
 private:
 	int column, value;
+	bool leftPart;
 };

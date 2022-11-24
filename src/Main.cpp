@@ -1,9 +1,8 @@
-#include <vector>
-
 #include "Bar.h"
 #include "Consts.h"
 #include "Platform/Platform.hpp"
 #include "SortingAlg.h"
+#include <vector>
 
 using namespace std;
 using namespace constants;
@@ -34,16 +33,25 @@ int main()
 	mainBar.setLocation(-screenResolutionX / 2 + mainBar.getLengthX() / 2, 0);
 
 	int maxColumns = screenResolutionY / 5;
-	std::vector<HorizontalBar> mHBars;
-	mHBars.reserve(maxColumns);
+	std::vector<HorizontalBar> mHBarsLeft, mHBarsRight;
+	mHBarsLeft.reserve(maxColumns);
+	mHBarsRight.reserve(maxColumns);
 	for (int i = 0; i < maxColumns; i++)
-		mHBars.push_back(HorizontalBar(i, Random(1, screenResolutionX / 2)));
+	{
+		int rand = Random(1, screenResolutionX / 2);
+		mHBarsLeft.push_back(HorizontalBar(i, rand));
+		mHBarsRight.push_back(HorizontalBar(i, rand, false));
+	}
 
-	cout << "Vector size: " << mHBars.size() << endl;
+	cout << "Vector size: " << mHBarsLeft.size() << endl;
 
-	BubbleSort mBSort(&mHBars);
+	BubbleSort mBSort(&mHBarsLeft);
 
-	int steps2Avoid(10), stepsCounter(0);
+	int steps2Avoid(
+		3
+		// 10
+		),
+		stepsCounter(0);
 
 	while (window.isOpen())
 	{
@@ -61,8 +69,10 @@ int main()
 			stepsCounter = 0;
 			mBSort.doStep();
 		}
-		for (uint i = 0; i < mHBars.size(); i++)
-			window.draw(sf::RectangleShape(*(mHBars[i].getRect())));
+		for (uint i = 0; i < mHBarsLeft.size(); i++)
+			window.draw(sf::RectangleShape(*(mHBarsLeft[i].getRect())));
+		for (uint i = 0; i < mHBarsRight.size(); i++)
+			window.draw(sf::RectangleShape(*(mHBarsRight[i].getRect())));
 
 		window.draw(sf::RectangleShape(*(mainBar.getRect())));
 		window.display();

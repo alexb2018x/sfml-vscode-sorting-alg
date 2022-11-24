@@ -118,13 +118,15 @@ void Bar::setColor(sf::Color color)
 }
 
 HorizontalBar::HorizontalBar() :
-	Bar()
+	Bar(),
+	leftPart(true)
 {
 	setColAndVal(0, 100);
 }
 
-HorizontalBar::HorizontalBar(int col, int val) :
-	Bar()
+HorizontalBar::HorizontalBar(int col, int val, bool leftPart) :
+	Bar(),
+	leftPart(leftPart)
 {
 	setColAndVal(col, val);
 }
@@ -134,27 +136,30 @@ HorizontalBar::~HorizontalBar()
 }
 
 HorizontalBar::HorizontalBar(const HorizontalBar& other) :
-	Bar(other)
+	Bar(other),
+	leftPart(other.leftPart)
 {
 	setColAndVal(other.column, other.value);
 }
 HorizontalBar& HorizontalBar::operator=(const HorizontalBar& other)
 {
 	Bar::operator=(other);
+	leftPart = other.leftPart;
 	setColAndVal(other.column, other.value);
 	return *this;
 }
 
 HorizontalBar::HorizontalBar(HorizontalBar&& other) noexcept :
-	Bar(std::move(other))
+	Bar(std::move(other)),
+	leftPart(other.leftPart)
 {
 	setColAndVal(other.column, other.value);
 }
 
 HorizontalBar& HorizontalBar::operator=(HorizontalBar&& other) noexcept
 {
-	// this = std::move(other);
 	Bar::operator=(other);
+	leftPart = other.leftPart;
 	setColAndVal(other.column, other.value);
 	return *this;
 }
@@ -164,8 +169,12 @@ void HorizontalBar::setColAndVal(int col, int val)
 	column = col;
 	value = val;
 
-	setLength(val * 2, 5);
-	setLocation(-screenResolutionX / 2 + lenX / 2, -screenResolutionY + lenY * (1 + column));
+	setLength(val, 5);
+	// setLocation(-screenResolutionX / 2 + lenX / 2, -screenResolutionY + lenY * (1 + column));
+	if (leftPart)
+		setLocation(-screenResolutionX / 2 + lenX, -screenResolutionY + lenY * (1 + column));
+	else
+		setLocation(-screenResolutionX / 2, -screenResolutionY + lenY * (1 + column));
 }
 
 void HorizontalBar::swap(HorizontalBar& other)
@@ -178,4 +187,9 @@ void HorizontalBar::swap(HorizontalBar& other)
 bool HorizontalBar::operator<(const HorizontalBar& other) const
 {
 	return value < other.value;
+}
+
+void HorizontalBar::setIfItIsLeftPart(bool val)
+{
+	leftPart = val;
 }
