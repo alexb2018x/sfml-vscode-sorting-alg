@@ -49,7 +49,7 @@ int main()
 	mHBarsRight.reserve(maxColumns);
 	for (int i = 0; i < maxColumns; i++)
 	{
-		int rand = Random(1, screenResolutionX / 2);
+		int rand = Random(5, screenResolutionX / 2);
 		mHBarsLeft.push_back(HorizontalBar(i, rand));
 		mHBarsRight.push_back(HorizontalBar(i, rand, false));
 	}
@@ -57,6 +57,7 @@ int main()
 	cout << "Vector size: " << mHBarsLeft.size() << endl;
 
 	BubbleSort mBSort(&mHBarsLeft);
+	SelectionSort mSSort(&mHBarsRight);
 
 	int steps2Avoid(
 		0
@@ -80,6 +81,7 @@ int main()
 		{
 			stepsCounter = 0;
 			mBSort.doStep();
+			mSSort.doStep();
 		}
 		for (uint i = 0; i < mHBarsLeft.size(); i++)
 			window.draw(sf::RectangleShape(*(mHBarsLeft[i].getRect())));
@@ -89,6 +91,8 @@ int main()
 		window.draw(sf::RectangleShape(*(mainBar.getRect())));
 		if (mBSort.finished)
 			window.draw(textLeft);
+		if (mSSort.finished)
+			window.draw(textRight);
 		window.display();
 	}
 
